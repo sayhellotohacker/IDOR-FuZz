@@ -1,66 +1,72 @@
-IDOR-FuZz
-IDOR-FuZz is a simple and effective Python tool for fuzzing IDOR (Insecure Direct Object References) vulnerabilities by testing common endpoint paths after an organization or user ID.
+**IDOR-FuZz** is a simple and effective Python tool for fuzzing IDOR (Insecure Direct Object References) vulnerabilities by testing common endpoint paths after an organization or user ID.
 
-How It Works
+## How It Works
+
 The script iterates through a list of potential endpoint names and sends GET requests to:
 
-text
+```
 https://example.com/api/organizations/{org_id}/{endpoint}
-It then reports any responses that are not 404 Not Found, helping you identify which endpoints may be accessible with your ID.
+```
 
-Features
-Customizable headers (Cookie, User-Agent)
+It then reports any responses that are **not 404 Not Found**, helping you identify which endpoints may be accessible with your ID.
 
-Predefined list of common sensitive endpoints
+## Features
 
-Detects 200, 403, 405, and other non-404 responses
+- Customizable headers (Cookie, User-Agent)
+- Predefined list of common sensitive endpoints
+- Detects 200, 403, 405, and other non-404 responses
+- Prints response previews for quick analysis
 
-Prints response previews for quick analysis
+## Usage
 
-Usage
-Clone the repository
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/IDOR-FuZz.git
+   cd IDOR-FuZz
+   ```
 
-bash
-git clone https://github.com/yourusername/IDOR-FuZz.git
-cd IDOR-FuZz
-Install dependencies
+2. **Install dependencies**
+   ```bash
+   pip install requests
+   ```
 
-bash
-pip install requests
-Edit the script
-Open the Python file and replace:
+3. **Edit the script**  
+   Open the Python file and replace:
+   - `[cookiehat]` → your actual session cookie
+   - `org_id` → your target organization/user ID
 
-[cookiehat] → your actual session cookie
+4. **Run the tool**
+   ```bash
+   python idor_fuzz.py
+   ```
 
-org_id → your target organization/user ID
+## Example Output
 
-Run the tool
-
-bash
-python idor_fuzz.py
-Example Output
-text
+```
 [200] /api/organizations/{org}/members
   → {"id":"7bda4b04-...","role":"admin"...
 [403] /api/organizations/{org}/secrets
   → {"error":"access denied"}
 [405] /api/organizations/{org}/logs
-Customization
+```
+
+## Customization
+
 You can easily:
+- Add or remove endpoints in the `endpoints` list
+- Modify the base URL for other targets (not just claude.ai)
+- Change HTTP method (POST, PUT, etc.) if needed
 
-Add or remove endpoints in the endpoints list
+## Important Notes
 
-Modify the base URL for other targets (not just claude.ai)
+- **Always have proper authorization** before testing any system
+- Use this only on applications you own or have explicit permission to test
+- The author is not responsible for any misuse or illegal activity
 
-Change HTTP method (POST, PUT, etc.) if needed
+## License
 
-Important Notes
-Always have proper authorization before testing any system
-
-Use this only on applications you own or have explicit permission to test
-
-The author is not responsible for any misuse or illegal activity
-
-License
 MIT License – use freely, but responsibly.
 
+---
+
+Let me know if you want the README in a different format (Markdown, plain text, etc.) or want to expand any section.
